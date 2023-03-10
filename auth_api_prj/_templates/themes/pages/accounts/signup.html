@@ -1,0 +1,136 @@
+{% extends '_templates/themes/layouts/accounts/auth.html' %}
+{% load static %}
+{% load socialaccount %}
+
+{% block authform %}
+   {% comment %} This is signup form {% endcomment %}
+
+    <!--begin::Form-->
+    <form method = "POST" class="form w-100"  id="kt_sign_up_form" action = "{% url 'sign-up' %}" >
+         {% csrf_token %}
+        <!--begin::Heading-->
+        <div class="text-center mb-11">
+            <!--begin::Title-->
+            <h1 class="text-dark fw-bolder mb-3">Sign Up</h1>
+            <div class="text-gray-500 fw-semibold fs-6">Your Social Campaigns</div>
+        </div>
+        <div class="row g-3 mb-9">
+            <div class="col-md-6">
+                <a href="{% provider_login_url 'google' %}?next=/" class="btn btn-flex btn-outline btn-text-gray-700 btn-active-color-primary bg-state-light flex-center text-nowrap w-100">
+                <img alt="Logo" src="{% static APP_THEME|add:'assets/media/svg/brand-logos/google-icon.svg' %}" class="h-15px me-3" />Sign in with Google</a>
+            </div>
+            <div class="col-md-6">
+                <a href="{% provider_login_url 'github' %}?next=/" class="btn btn-flex btn-outline btn-text-gray-700 btn-active-color-primary bg-state-light flex-center text-nowrap w-100">
+                <img alt="Logo" src="{% static APP_THEME|add:'assets/media/svg/brand-logos/github-1.svg' %}" class="theme-light-show h-15px me-3" />
+                <img alt="Logo" src="{% static APP_THEME|add:'assets/media/svg/brand-logos/github-icon.svg' %}" class="theme-dark-show h-15px me-3" />Sign in with Github</a>
+            </div>
+        </div>
+        <div class="separator separator-content my-14">
+            <span class="w-125px text-gray-500 fw-semibold fs-7">Or with email</span>
+        </div>
+         <div class="fv-row mb-8">
+            <!--begin::Email-->
+            <input type="text" placeholder="Email" name="email" autocomplete="off" class="form-control bg-transparent" />
+            <span id="email-error"  class = "fv-plugins-message-container invalid-feedback" style="display:none"></span>
+            <!--end::Email-->
+        </div>
+
+         <div class="fv-row mb-8">
+            <!--begin::Username-->
+            <input type="text" placeholder="Username" name="username" autocomplete="off" class="form-control bg-transparent" />
+        </div>
+
+        <div class="fv-row mb-8">
+            <!--begin::Username-->
+            <input type="text" placeholder="Phone number" name="phone_number" autocomplete="off" class="form-control bg-transparent" />
+            <span id="phone_number-error"  class = "fv-plugins-message-container invalid-feedback" style="display:none"></span>
+        </div>
+        <!--begin::Input group=-->
+        <div class="fv-row mb-8">
+            <!--begin::first_name-->
+            <input type="text" placeholder="First name" name="first_name" autocomplete="off" class="form-control bg-transparent" />
+            <!--end::first_name-->
+        </div>
+         <!--begin::Input group=-->
+         <div class="fv-row mb-8">
+            <!--begin::middel_name-->
+            <input type="text" placeholder="Last name" name="last_name" autocomplete="off" class="form-control bg-transparent" />
+            <!--end::middel_name-->
+        </div>
+        
+        <!--begin::Input group-->
+        <div class="fv-row mb-8" data-kt-password-meter="true">
+            <!--begin::Wrapper-->
+            <div class="mb-1">
+                <!--begin::Input wrapper-->
+                <div class="position-relative mb-3">
+                    <input class="form-control bg-transparent" type="password" placeholder="Password" name="password" autocomplete="off" />
+                    <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2" data-kt-password-meter-control="visibility">
+                        <i class="bi bi-eye-slash fs-2"></i>
+                        <i class="bi bi-eye fs-2 d-none"></i>
+                    </span>
+                </div>
+                <!--end::Input wrapper-->
+                <!--begin::Meter-->
+                <div class="d-flex align-items-center mb-3" data-kt-password-meter-control="highlight">
+                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
+                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
+                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
+                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px"></div>
+                </div>
+                <!--end::Meter-->
+            </div>
+            <!--end::Wrapper-->
+            <!--begin::Hint-->
+            <div class="text-muted">Use 8 or more characters with a mix of letters, numbers &amp; symbols.</div>
+            <!--end::Hint-->
+        </div>
+        <!--end::Input group=-->
+        <!--end::Input group=-->
+        <div class="fv-row mb-8">
+            <!--begin::Repeat Password-->
+            <input placeholder="Confirm Password" name="confirm_password" type="password" autocomplete="off" class="form-control bg-transparent" />
+            <!--end::Repeat Password-->
+            <span id="password-error"  class = "fv-plugins-message-container invalid-feedback" style="display:none"></span>
+        </div>
+        <!--end::Input group=-->
+        <!--begin::Accept-->
+        <div class="fv-row mb-8">
+            <label class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="toc" value="1" />
+                <span class="form-check-label fw-semibold text-gray-700 fs-base ms-1">I Accept the
+                <a href="#" class="ms-1 link-primary">Terms</a></span>
+            </label>
+        </div>
+       
+        <!--begin::Submit button-->
+        <div class="d-grid mb-10">
+            <button type="submit" id="kt_sign_up_submit" class="btn btn-primary">
+                {% comment %} <input type="submit" name = "submit" id="kt_sign_up_submit" class="btn btn-primary"> {% endcomment %}
+                <!--begin::Indicator label-->
+                <span class="indicator-label">Sign up</span>
+                <!--end::Indicator label-->
+                <!--begin::Indicator progress-->
+                <span class="indicator-progress">Please wait...
+                <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                <!--end::Indicator progress-->
+            </button>
+        </div>
+        <!--end::Submit button-->
+        <!--begin::Sign up-->
+        <div class="text-gray-500 text-center fw-semibold fs-6">Already have an Account?
+        <a href="{% url  'sign-in' %}" class="link-primary fw-semibold">Sign in</a></div>
+        <!--end::Sign up-->
+    </form>
+    <!--end::Form-->
+
+{% endblock authform %}
+
+{% block page_scripts %}
+
+    <script src="{% static APP_THEME|add:'assets/js/custom/authentication/sign-up/general--custom.js'%}?v={{APP_VERSION}}"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"></script>
+
+
+{% endblock page_scripts %}
+
